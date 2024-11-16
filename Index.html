@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cricket Team Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>🏏 Cricket Team Manager</h1>
+    </header>
+    <main>
+        <form id="playerForm">
+            <input type="text" id="playerName" placeholder="Enter player name" required>
+            <select id="expertise">
+                <option value="Batsman">Batsman</option>
+                <option value="Baller">Baller</option>
+                <option value="All Rounder">All Rounder</option>
+            </select>
+            <button type="submit">Add Player</button>
+        </form>
+        <div id="players"></div>
+        <div class="controls">
+            <button id="shuffleTeams">Shuffle Teams</button>
+            <button id="toss">Toss</button>
+        </div>
+        <div id="result"></div>
+    </main>
+    <footer>
+        <p>Made with 🏏 passion for cricket enthusiasts!</p>
+    </footer>
+    <script src="script.js"></script>
+</body>
+</html>
