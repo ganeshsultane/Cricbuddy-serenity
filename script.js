@@ -1,67 +1,77 @@
-// Predefined players with expertise
+// Predefined players
 const players = [
-    { name: "Ganesh", expertise: "Baller - Faster" },
-    { name: "Paresh", expertise: "All Rounder" },
-    { name: "Nilesh", expertise: "Batsman" },
-    { name: "Pradip", expertise: "Baller - Spinner" },
-    { name: "Vijay", expertise: "All Rounder" },
-    { name: "Jayesh", expertise: "Baller - Faster" },
-    { name: "Dinesh", expertise: "All Rounder" },
-    { name: "Pratik", expertise: "All Rounder" },
-    { name: "Hardeep", expertise: "All Rounder" },
-    { name: "Vikas", expertise: "Batsman" },
-    { name: "Mars", expertise: "Batsman" },
-    { name: "Shets", expertise: "Batsman" },
-    { name: "Manjabapu", expertise: "Batsman" },
-    { name: "Gaurav", expertise: "All Rounder" },
-    { name: "Yuvraj", expertise: "Batsman" },
-    { name: "Akshay Ghejji", expertise: "Batsman" }
+    { name: "Ganesh", expertise: "Baller - Faster", available: true },
+    { name: "Paresh", expertise: "All Rounder", available: true },
+    { name: "Nilesh", expertise: "Batsman", available: true },
+    { name: "Pradip", expertise: "Baller - Spinner", available: true },
+    { name: "Vijay", expertise: "All Rounder", available: true },
+    { name: "Jayesh", expertise: "Baller - Faster", available: true },
+    { name: "Dinesh", expertise: "All Rounder", available: true },
+    { name: "Pratik", expertise: "All Rounder", available: true },
+    { name: "Hardeep", expertise: "All Rounder", available: true },
+    { name: "Vikas", expertise: "Batsman", available: true },
 ];
 
 // DOM elements
 const playerForm = document.getElementById('playerForm');
 const playersDiv = document.getElementById('players');
 const resultDiv = document.getElementById('result');
+const coinDiv = document.getElementById('coin');
 
-// Display initial players
+// Display players
+function displayPlayers() {
+    playersDiv.innerHTML = players.map((p, i) => `
+        <label>
+            <input type="checkbox" data-index="${i}" ${p.available ? 'checked' : ''}>
+            ${p.name} (${p.expertise})
+        </label>
+    `).join('');
+}
 displayPlayers();
 
-// Add new players dynamically
+// Add player
 playerForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const name = document.getElementById('playerName').value;
     const expertise = document.getElementById('expertise').value;
-    players.push({ name, expertise });
-    document.getElementById('playerName').value = '';
+    players.push({ name, expertise, available: true });
     displayPlayers();
 });
 
-// Display players list
-function displayPlayers() {
-    playersDiv.innerHTML = '<h2>Player List:</h2>' + players.map((p, i) =>
-        `<p>${i + 1}. ${p.name} (${p.expertise})</p>`).join('');
-}
+// Update availability
+playersDiv.addEventListener('change', (e) => {
+    const index = e.target.dataset.index;
+    players[index].available = e.target.checked;
+});
 
-// Shuffle teams
-document.getElementById('shuffleTeams').addEventListener('click', () => {
-    if (players.length < 2) {
-        resultDiv.innerHTML = '<p>Please add more players to shuffle teams.</p>';
+// Shuffle and create teams
+document.getElementById('createTeams').addEventListener('click', () => {
+    const availablePlayers = players.filter(p => p.available);
+    if (availablePlayers.length < 2) {
+        resultDiv.innerHTML = '<p>Not enough players to create teams!</p>';
         return;
     }
-    const shuffled = players.sort(() => Math.random() - 0.5);
-    const mid = Math.ceil(shuffled.length / 2);
-    const team1 = shuffled.slice(0, mid);
-    const team2 = shuffled.slice(mid);
+
+    const teams = [[], []];
+    availablePlayers.sort(() => Math.random() - 0.5).forEach((p, i) => {
+        teams[i % 2].push(p);
+    });
+
     resultDiv.innerHTML = `
         <h3>Team 1</h3>
-        ${team1.map(p => `<p>${p.name} (${p.expertise})</p>`).join('')}
+        ${teams[0].map(p => `<p>${p.name} (${p.expertise})</p>`).join('')}
         <h3>Team 2</h3>
-        ${team2.map(p => `<p>${p.name} (${p.expertise})</p>`).join('')}
+        ${teams[1].map(p => `<p>${p.name} (${p.expertise})</p>`).join('')}
     `;
 });
 
-// Toss functionality
+// Toss with coin flip animation
 document.getElementById('toss').addEventListener('click', () => {
-    const tossResult = Math.random() < 0.5 ? 'Team 1 wins the toss!' : 'Team 2 wins the toss!';
-    resultDiv.innerHTML = `<h2>${tossResult}</h2>`;
+    coinDiv.classList.remove('hidden');
+    coinDiv.style.transform = 'rotateY(0)';
+    setTimeout(() => {
+        const isHeads = Math.random() < 0.5;
+        coinDiv.style.transform = `rotateY(${isHeads ? 180 : 0}deg)`;
+        resultDiv.innerHTML = `<h2>${isHeads ? 'Heads' : 'Tails'} Wins the Toss!</h2>`;
+    }, 500);
 });
