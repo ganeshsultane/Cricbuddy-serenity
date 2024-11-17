@@ -3,32 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cricket Team Manager</title>
+    <title>Serenity Cricket Team Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>🏏 Cricket Team Manager</h1>
+        <h1>Serenity Cricket Team Manager</h1>
     </header>
     <main>
         <form id="playerForm">
             <input type="text" id="playerName" placeholder="Enter player name" required>
             <select id="expertise">
                 <option value="Batsman">Batsman</option>
-                <option value="Baller">Baller</option>
+                <option value="Baller - Faster">Baller - Faster</option>
+                <option value="Baller - Spinner">Baller - Spinner</option>
                 <option value="All Rounder">All Rounder</option>
             </select>
             <button type="submit">Add Player</button>
         </form>
-        <div id="players"></div>
+        <div id="players">
+            <h2>Available Players</h2>
+        </div>
         <div class="controls">
-            <button id="shuffleTeams">Shuffle Teams</button>
+            <button id="createTeams">Create Teams</button>
             <button id="toss">Toss</button>
+        </div>
+        <div id="coin" class="coin hidden">
+            <div class="coin-head">Heads</div>
+            <div class="coin-tail">Tails</div>
         </div>
         <div id="result"></div>
     </main>
     <footer>
-        <p>Made with 🏏 passion for cricket enthusiasts!</p>
+        <p>🏏 Serenity Cricket Manager © 2024</p>
     </footer>
     <script src="script.js"></script>
 </body>
