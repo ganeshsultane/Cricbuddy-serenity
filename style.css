@@ -9,19 +9,18 @@ body {
 }
 
 header {
-    background-color: #1e1e1e;
+    background-color: #00b140;
     padding: 20px 0;
-    margin-bottom: 20px;
+    color: #ffffff;
 }
 
 h1 {
-    font-size: 2.5em;
-    color: #00ff77;
-    text-shadow: 2px 2px 5px #005533;
+    font-size: 2em;
+    margin: 0;
 }
 
 form {
-    margin-bottom: 20px;
+    margin: 20px auto;
 }
 
 input, select, button {
@@ -32,22 +31,18 @@ input, select, button {
     font-size: 1em;
 }
 
-input, select {
-    width: 200px;
-}
-
 button {
-    background-color: #00ff77;
-    color: #121212;
+    background-color: #00b140;
+    color: #ffffff;
     cursor: pointer;
     transition: background 0.3s ease;
 }
 
 button:hover {
-    background-color: #005533;
+    background-color: #006b28;
 }
 
-#players, #result {
+#players {
     margin: 20px auto;
     max-width: 600px;
     text-align: left;
@@ -57,10 +52,35 @@ button:hover {
     margin: 20px 0;
 }
 
-footer {
-    margin-top: 40px;
-    background-color: #1e1e1e;
-    padding: 10px 0;
-    font-size: 0.9em;
-    color: #aaaaaa;
+.coin {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px auto;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: linear-gradient(145deg, #f4f4f4, #c9c9c9);
+    box-shadow: 4px 4px 8px #111, -4px -4px 8px #2e2e2e;
+    transform-origin: center;
+    transition: transform 0.6s ease-in-out;
+}
+
+.coin-head,
+.coin-tail {
+    position: absolute;
+    color: #333;
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    input, select, button {
+        width: 90%;
+    }
 }
