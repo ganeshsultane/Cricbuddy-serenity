@@ -1,96 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Friendly Cricket Scorer — League</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cricket Score App</title>
   <link rel="stylesheet" href="style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-  <header>
-    <h1>🏏 Serenity Cricket Scorer</h1>
-  </header>
+  <div class="container">
+    <h1>🏏 Serenity Cricket League Manager</h1>
 
-  <main>
-    <!-- Setup -->
-    <section id="setup" class="card">
+    <div id="setup">
       <h2>Match Setup</h2>
-      <label>Team 1:
-        <select id="team1"></select>
+      <label>Team A:
+        <select id="teamA"></select>
       </label>
-      <label>Team 2:
-        <select id="team2"></select>
+      <label>Team B:
+        <select id="teamB"></select>
       </label>
       <label>Overs:
-        <input type="number" id="overs" value="7" min="1" max="50" />
+        <input type="number" id="overs" value="7" min="1" max="10" />
       </label>
       <button id="startMatch">Start Match</button>
-    </section>
+    </div>
 
-    <!-- Scoring -->
-    <section id="scoring" class="card" style="display:none;">
-      <h2 id="inningTitle">Innings</h2>
+    <div id="scoreSection" style="display:none;">
+      <h2 id="inningsTitle"></h2>
+      <div id="scoreDisplay"></div>
+      <div id="batsmanStats"></div>
 
-      <div class="scoreboard">
-        <div><strong>Team:</strong> <span id="battingTeam"></span></div>
-        <div><strong>Score:</strong> <span id="runs">0</span>/<span id="wickets">0</span></div>
-        <div><strong>Overs:</strong> <span id="oversCount">0.0</span> ( <span id="oversLimitDisplay">7</span> overs )</div>
-        <div><strong>Run Rate:</strong> <span id="runRate">0.00</span></div>
-        <div id="targetBlock" style="display:none;">
-          🎯 <strong>Target:</strong> <span id="target">0</span> |
-          <strong>Needed:</strong> <span id="runsNeeded">0</span> |
-          <strong>Balls Left:</strong> <span id="ballsLeft">0</span> |
-          <strong>RRR:</strong> <span id="rrr">0.00</span>
-        </div>
+      <div class="controls">
+        <h3>Add Runs / Wicket</h3>
+        <button class="run" data-run="0">0</button>
+        <button class="run" data-run="1">1</button>
+        <button class="run" data-run="2">2</button>
+        <button class="run" data-run="3">3</button>
+        <button class="run" data-run="4">4</button>
+        <button class="run" data-run="6">6</button>
+        <button id="wicket">Wicket</button>
+        <button id="nextBatsman">Next Batsman</button>
       </div>
 
-      <div class="batting-panel">
-        <h3>Batsmen</h3>
-        <table id="batsmanTable">
-          <thead>
-            <tr><th>Player</th><th>R</th><th>B</th><th>SR</th><th>On Strike</th></tr>
-          </thead>
-          <tbody></tbody>
-        </table>
-        <div class="controls">
-          <button class="runBtn" data-run="0">0</button>
-          <button class="runBtn" data-run="1">1</button>
-          <button class="runBtn" data-run="2">2</button>
-          <button class="runBtn" data-run="3">3</button>
-          <button class="runBtn" data-run="4">4</button>
-          <button class="runBtn" data-run="6">6</button>
-          <button id="wicketBtn">Wicket</button>
-          <button id="swapStrikeBtn">Swap Strike</button>
-        </div>
-        <div style="margin-top:8px;">
-          <button id="nextBallBtn">Next Ball (advance)</button>
-          <button id="endInningsBtn">End Innings</button>
-        </div>
-      </div>
-    </section>
+      <div id="matchInfo"></div>
+    </div>
+  </div>
 
-    <!-- Result -->
-    <section id="result" class="card" style="display:none;">
-      <h2>Match Summary</h2>
-      <div id="summaryArea"></div>
-      <div style="margin-top:10px;">
-        <button id="downloadCsvBtn">Download CSV Report</button>
-        <button id="newMatchBtn">New Match</button>
-      </div>
-    </section>
-
-    <!-- History (optional) -->
-    <section id="history" class="card">
-      <h3>Saved Matches (localStorage)</h3>
-      <div id="historyList"></div>
-      <button id="clearHistoryBtn">Clear History</button>
-    </section>
-  </main>
-
-  <footer>
-    <small>Local League — 6 players per team, 7 overs default</small>
-  </footer>
-
+  <script src="report.js"></script>
   <script src="script.js"></script>
 </body>
 </html>
