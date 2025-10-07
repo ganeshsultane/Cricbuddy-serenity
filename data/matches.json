@@ -1,0 +1,26 @@
+[
+  {
+    "match_id": 1,
+    "date": "2025-10-06",
+    "team1": "Shivneri",
+    "team2": "Rajgad",
+    "overs": 5,
+    "scores": {
+      "Shivneri": { "runs": 45, "wickets": 4, "overs": 5.0 },
+      "Rajgad": { "runs": 46, "wickets": 3, "overs": 4.5 }
+    },
+    "winner": "Rajgad"
+  },
+  {
+    "match_id": 2,
+    "date": "2025-10-06",
+    "team1": "Raigad",
+    "team2": "Sinhgad",
+    "overs": 5,
+    "scores": {
+      "Raigad": { "runs": 52, "wickets": 5, "overs": 5.0 },
+      "Sinhgad": { "runs": 48, "wickets": 6, "overs": 5.0 }
+    },
+    "winner": "Raigad"
+  }
+]
