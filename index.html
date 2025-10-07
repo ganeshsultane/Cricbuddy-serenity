@@ -1,42 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Serenity Cricket Team Manager</title>
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Friendly Cricket Scorer</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Serenity Cricket Team Manager</h1>
-    </header>
-    <main>
-        <form id="playerForm">
-            <input type="text" id="playerName" placeholder="Enter player name" required>
-            <select id="expertise">
-                <option value="Batsman">Batsman</option>
-                <option value="Baller - Faster">Baller - Faster</option>
-                <option value="Baller - Spinner">Baller - Spinner</option>
-                <option value="All Rounder">All Rounder</option>
-            </select>
-            <button type="submit">Add Player</button>
-        </form>
-        <div id="players">
-            <h2>Available Players</h2>
-        </div>
-        <div class="controls">
-            <button id="createTeams">Create Teams</button>
-            <button id="toss">Toss</button>
-        </div>
-        <div id="coin" class="coin hidden">
-            <div class="coin-head">Heads</div>
-            <div class="coin-tail">Tails</div>
-        </div>
-        <div id="result"></div>
-    </main>
-    <footer>
-        <p>🏏 Serenity Cricket Manager © 2024</p>
-    </footer>
-    <script src="script.js"></script>
+  <h1>🏏 Friendly Cricket Scorer</h1>
+
+  <section id="setup">
+    <h2>Setup Match</h2>
+    <label>Team 1:
+      <select id="team1"></select>
+    </label>
+    <label>Team 2:
+      <select id="team2"></select>
+    </label>
+    <label>Overs:
+      <input type="number" id="overs" value="5" min="1" max="50">
+    </label>
+    <button id="startMatch">Start Match</button>
+  </section>
+
+  <section id="scoring" style="display:none;">
+    <h2 id="battingTeamName"></h2>
+    <div class="scoreboard">
+      <p><b>Runs:</b> <span id="runs">0</span> |
+         <b>Wickets:</b> <span id="wickets">0</span> |
+         <b>Overs:</b> <span id="oversCount">0.0</span></p>
+      <p><b>Run Rate:</b> <span id="runRate">0.00</span></p>
+    </div>
+
+    <div class="buttons">
+      <button class="runBtn" data-run="0">0</button>
+      <button class="runBtn" data-run="1">1</button>
+      <button class="runBtn" data-run="2">2</button>
+      <button class="runBtn" data-run="3">3</button>
+      <button class="runBtn" data-run="4">4</button>
+      <button class="runBtn" data-run="6">6</button>
+      <button id="wicketBtn">Wicket</button>
+      <button id="nextBall">Next Ball</button>
+    </div>
+
+    <button id="endInnings">End Innings</button>
+  </section>
+
+  <section id="result" style="display:none;">
+    <h2>Match Summary</h2>
+    <div id="summary"></div>
+    <button id="newMatch">New Match</button>
+  </section>
+
+  <script src="script.js"></script>
 </body>
 </html>
