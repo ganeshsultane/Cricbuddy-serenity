@@ -1,86 +1,49 @@
-/* General Theme */
 body {
-    background-color: #121212;
-    color: #ffffff;
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-}
-
-header {
-    background-color: #00b140;
-    padding: 20px 0;
-    color: #ffffff;
+  font-family: Arial, sans-serif;
+  background: #f0f9ff;
+  text-align: center;
+  margin: 0;
+  padding: 20px;
 }
 
 h1 {
-    font-size: 2em;
-    margin: 0;
+  color: #0066cc;
 }
 
-form {
-    margin: 20px auto;
-}
-
-input, select, button {
-    padding: 10px;
-    margin: 5px;
-    border: none;
-    border-radius: 5px;
-    font-size: 1em;
+section {
+  background: white;
+  padding: 20px;
+  margin: 20px auto;
+  width: 90%;
+  max-width: 500px;
+  border-radius: 12px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
 
 button {
-    background-color: #00b140;
-    color: #ffffff;
-    cursor: pointer;
-    transition: background 0.3s ease;
+  margin: 5px;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 button:hover {
-    background-color: #006b28;
+  opacity: 0.9;
 }
 
-#players {
-    margin: 20px auto;
-    max-width: 600px;
-    text-align: left;
+.runBtn {
+  background-color: #4CAF50;
+  color: white;
 }
 
-.controls {
-    margin: 20px 0;
+#wicketBtn {
+  background-color: #f44336;
+  color: white;
 }
 
-.coin {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 20px auto;
-    width: 100px;
-    height: 100px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #f4f4f4, #c9c9c9);
-    box-shadow: 4px 4px 8px #111, -4px -4px 8px #2e2e2e;
-    transform-origin: center;
-    transition: transform 0.6s ease-in-out;
-}
-
-.coin-head,
-.coin-tail {
-    position: absolute;
-    color: #333;
-    font-size: 1.5em;
-    font-weight: bold;
-}
-
-.hidden {
-    display: none;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    input, select, button {
-        width: 90%;
-    }
+#endInnings, #newMatch {
+  background-color: #2196F3;
+  color: white;
 }
