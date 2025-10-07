@@ -15,7 +15,7 @@ section {
   padding: 20px;
   margin: 20px auto;
   width: 90%;
-  max-width: 500px;
+  max-width: 520px;
   border-radius: 12px;
   box-shadow: 0 0 10px rgba(0,0,0,0.1);
 }
@@ -46,4 +46,12 @@ button:hover {
 #endInnings, #newMatch {
   background-color: #2196F3;
   color: white;
+}
+
+#targetInfo {
+  margin-top: 10px;
+  background: #fff8e1;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 15px;
 }
