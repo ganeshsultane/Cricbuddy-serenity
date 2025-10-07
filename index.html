@@ -1,65 +1,95 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Friendly Cricket Scorer</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Friendly Cricket Scorer — League</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>🏏 Friendly Cricket Scorer</h1>
+  <header>
+    <h1>🏏 Serenity Cricket Scorer</h1>
+  </header>
 
-  <!-- Match Setup -->
-  <section id="setup">
-    <h2>Setup Match</h2>
-    <label>Team 1:
-      <select id="team1"></select>
-    </label>
-    <label>Team 2:
-      <select id="team2"></select>
-    </label>
-    <label>Overs:
-      <input type="number" id="overs" value="5" min="1" max="50">
-    </label>
-    <button id="startMatch">Start Match</button>
-  </section>
+  <main>
+    <!-- Setup -->
+    <section id="setup" class="card">
+      <h2>Match Setup</h2>
+      <label>Team 1:
+        <select id="team1"></select>
+      </label>
+      <label>Team 2:
+        <select id="team2"></select>
+      </label>
+      <label>Overs:
+        <input type="number" id="overs" value="7" min="1" max="50" />
+      </label>
+      <button id="startMatch">Start Match</button>
+    </section>
 
-  <!-- Scoring Section -->
-  <section id="scoring" style="display:none;">
-    <h2 id="battingTeamName"></h2>
-    <div class="scoreboard">
-      <p><b>Runs:</b> <span id="runs">0</span> |
-         <b>Wickets:</b> <span id="wickets">0</span> |
-         <b>Overs:</b> <span id="oversCount">0.0</span></p>
-      <p><b>Run Rate:</b> <span id="runRate">0.00</span></p>
-      <p id="targetInfo" style="display:none;">
-        🎯 <b>Target:</b> <span id="target"></span> |
-        <b>Runs Needed:</b> <span id="runsNeeded"></span> |
-        <b>Balls Left:</b> <span id="ballsLeft"></span> |
-        <b>RRR:</b> <span id="rrr"></span>
-      </p>
-    </div>
+    <!-- Scoring -->
+    <section id="scoring" class="card" style="display:none;">
+      <h2 id="inningTitle">Innings</h2>
 
-    <div class="buttons">
-      <button class="runBtn" data-run="0">0</button>
-      <button class="runBtn" data-run="1">1</button>
-      <button class="runBtn" data-run="2">2</button>
-      <button class="runBtn" data-run="3">3</button>
-      <button class="runBtn" data-run="4">4</button>
-      <button class="runBtn" data-run="6">6</button>
-      <button id="wicketBtn">Wicket</button>
-      <button id="nextBall">Next Ball</button>
-    </div>
+      <div class="scoreboard">
+        <div><strong>Team:</strong> <span id="battingTeam"></span></div>
+        <div><strong>Score:</strong> <span id="runs">0</span>/<span id="wickets">0</span></div>
+        <div><strong>Overs:</strong> <span id="oversCount">0.0</span> ( <span id="oversLimitDisplay">7</span> overs )</div>
+        <div><strong>Run Rate:</strong> <span id="runRate">0.00</span></div>
+        <div id="targetBlock" style="display:none;">
+          🎯 <strong>Target:</strong> <span id="target">0</span> |
+          <strong>Needed:</strong> <span id="runsNeeded">0</span> |
+          <strong>Balls Left:</strong> <span id="ballsLeft">0</span> |
+          <strong>RRR:</strong> <span id="rrr">0.00</span>
+        </div>
+      </div>
 
-    <button id="endInnings">End Innings</button>
-  </section>
+      <div class="batting-panel">
+        <h3>Batsmen</h3>
+        <table id="batsmanTable">
+          <thead>
+            <tr><th>Player</th><th>R</th><th>B</th><th>SR</th><th>On Strike</th></tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="controls">
+          <button class="runBtn" data-run="0">0</button>
+          <button class="runBtn" data-run="1">1</button>
+          <button class="runBtn" data-run="2">2</button>
+          <button class="runBtn" data-run="3">3</button>
+          <button class="runBtn" data-run="4">4</button>
+          <button class="runBtn" data-run="6">6</button>
+          <button id="wicketBtn">Wicket</button>
+          <button id="swapStrikeBtn">Swap Strike</button>
+        </div>
+        <div style="margin-top:8px;">
+          <button id="nextBallBtn">Next Ball (advance)</button>
+          <button id="endInningsBtn">End Innings</button>
+        </div>
+      </div>
+    </section>
 
-  <!-- Result Section -->
-  <section id="result" style="display:none;">
-    <h2>Match Summary</h2>
-    <div id="summary"></div>
-    <button id="newMatch">New Match</button>
-  </section>
+    <!-- Result -->
+    <section id="result" class="card" style="display:none;">
+      <h2>Match Summary</h2>
+      <div id="summaryArea"></div>
+      <div style="margin-top:10px;">
+        <button id="downloadCsvBtn">Download CSV Report</button>
+        <button id="newMatchBtn">New Match</button>
+      </div>
+    </section>
+
+    <!-- History (optional) -->
+    <section id="history" class="card">
+      <h3>Saved Matches (localStorage)</h3>
+      <div id="historyList"></div>
+      <button id="clearHistoryBtn">Clear History</button>
+    </section>
+  </main>
+
+  <footer>
+    <small>Local League — 6 players per team, 7 overs default</small>
+  </footer>
 
   <script src="script.js"></script>
 </body>
