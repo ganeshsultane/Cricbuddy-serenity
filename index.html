@@ -9,6 +9,7 @@
 <body>
   <h1>🏏 Friendly Cricket Scorer</h1>
 
+  <!-- Match Setup -->
   <section id="setup">
     <h2>Setup Match</h2>
     <label>Team 1:
@@ -23,6 +24,7 @@
     <button id="startMatch">Start Match</button>
   </section>
 
+  <!-- Scoring Section -->
   <section id="scoring" style="display:none;">
     <h2 id="battingTeamName"></h2>
     <div class="scoreboard">
@@ -30,6 +32,12 @@
          <b>Wickets:</b> <span id="wickets">0</span> |
          <b>Overs:</b> <span id="oversCount">0.0</span></p>
       <p><b>Run Rate:</b> <span id="runRate">0.00</span></p>
+      <p id="targetInfo" style="display:none;">
+        🎯 <b>Target:</b> <span id="target"></span> |
+        <b>Runs Needed:</b> <span id="runsNeeded"></span> |
+        <b>Balls Left:</b> <span id="ballsLeft"></span> |
+        <b>RRR:</b> <span id="rrr"></span>
+      </p>
     </div>
 
     <div class="buttons">
@@ -46,6 +54,7 @@
     <button id="endInnings">End Innings</button>
   </section>
 
+  <!-- Result Section -->
   <section id="result" style="display:none;">
     <h2>Match Summary</h2>
     <div id="summary"></div>
