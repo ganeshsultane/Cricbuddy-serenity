@@ -25,21 +25,30 @@ let current = {
   oversPlayed: 0,
 };
 
-// Populate dropdowns
-window.onload = () => {
-  const teamA = document.getElementById("teamA");
-  const teamB = document.getElementById("teamB");
-  Object.keys(teams).forEach((t) => {
-    teamA.innerHTML += `<option value="${t}">${t}</option>`;
-    teamB.innerHTML += `<option value="${t}">${t}</option>`;
+// Populate team dropdowns correctly
+document.addEventListener("DOMContentLoaded", () => {
+  const teamASelect = document.getElementById("teamA");
+  const teamBSelect = document.getElementById("teamB");
+
+  Object.keys(teams).forEach((teamName) => {
+    const optionA = document.createElement("option");
+    optionA.value = teamName;
+    optionA.text = teamName;
+    teamASelect.appendChild(optionA);
+
+    const optionB = document.createElement("option");
+    optionB.value = teamName;
+    optionB.text = teamName;
+    teamBSelect.appendChild(optionB);
   });
-};
+});
 
 // Start Match
 document.getElementById("startMatch").onclick = () => {
   const teamA = document.getElementById("teamA").value;
   const teamB = document.getElementById("teamB").value;
   const overs = parseInt(document.getElementById("overs").value);
+  if (!teamA || !teamB) return alert("Select both teams!");
   if (teamA === teamB) return alert("Choose different teams!");
 
   match = { teamA, teamB, overs, currentInnings: 1, innings: [] };
