@@ -1,38 +1,6 @@
-// report.js
-// Cricket Match Report Generator using SheetJS (XLSX)
+// report.js - Cricket Match Report Generator using SheetJS
 
 function generateMatchReport(matchData) {
-    /*
-    matchData example:
-    {
-        teamA: "Shivneri",
-        teamB: "Rajgad",
-        overs: 7,
-        innings: [
-            {
-                battingTeam: "Shivneri",
-                totalRuns: 68,
-                wickets: 4,
-                oversPlayed: 7,
-                batsmen: [
-                    { name: "Pradip", runs: 24, balls: 15, sr: 160.0 },
-                    { name: "Vijay", runs: 10, balls: 8, sr: 125.0 },
-                    ...
-                ]
-            },
-            {
-                battingTeam: "Rajgad",
-                totalRuns: 69,
-                wickets: 5,
-                oversPlayed: 6.4,
-                batsmen: [...]
-            }
-        ],
-        winner: "Rajgad"
-    }
-    */
-
-    // Create a new workbook
     const wb = XLSX.utils.book_new();
 
     // === Innings Sheets ===
