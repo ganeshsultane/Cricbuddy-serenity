@@ -1,56 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Local Cricket League Manager</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Serenity Cricket Scorer — Live Manager</title>
+
+  <!-- minimal inline styles for highlights (keeps compatibility with your style.css) -->
+  <style>
+    .highlight { background:#fff8e1; padding:6px; border-radius:6px; }
+    .on-strike { font-weight:700; color:#0b74d1; }
+    .current-bowler { font-weight:700; color:#d35400; }
+    .over-ball { display:inline-block; width:24px; text-align:center; margin:2px; padding:4px; border-radius:4px; border:1px solid #eee; }
+    .legal { background:#e8f5e9; }
+    .extra { background:#fff3e0; }
+    #scoreChart { max-width:100%; height:140px; display:block; margin:8px 0; }
+    .small { font-size:13px; color:#666; }
+    .controls-row { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+    .panel { border-radius:10px; background:#fff; padding:12px; box-shadow:0 6px 18px rgba(8,30,50,0.06); margin-bottom:14px; }
+    table { width:100%; border-collapse:collapse; font-size:14px; }
+    th,td { padding:6px 8px; border-bottom:1px solid #f1f1f1; text-align:left; }
+    .btn { padding:8px 12px; border-radius:8px; border:none; cursor:pointer; background:#0b74d1; color:white; }
+  </style>
+
+  <!-- Chart.js (optional small score graph) -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- SheetJS for Excel report -->
   <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-  <div class="container">
-    <h1>🏏 serenity Local Cricket League Manager</h1>
+  <div style="max-width:980px;margin:18px auto;padding:10px;">
+    <h1>🏏 Serenity Cricket Scorer — Live Manager</h1>
 
-    <div id="setup">
-      <h2>Match Setup</h2>
-      <label>Team A:
-        <select id="teamA">
-          <option value="">--Select Team--</option>
-        </select>
-      </label>
-      <label>Team B:
-        <select id="teamB">
-          <option value="">--Select Team--</option>
-        </select>
-      </label>
-      <label>Overs:
-        <input type="number" id="overs" value="7" min="1" max="10" />
-      </label>
-      <button id="startMatch">Start Match</button>
+    <!-- Setup -->
+    <div id="setup" class="panel">
+      <h2>🗓️ Match Setup</h2>
+      <div style="display:flex;gap:12px;align-items:center;flex-wrap:wrap;">
+        <label>Team A:
+          <select id="teamA"><option value="">--Select--</option></select>
+        </label>
+        <label>Team B:
+          <select id="teamB"><option value="">--Select--</option></select>
+        </label>
+        <label>Overs:
+          <input id="overs" type="number" value="7" min="1" max="50" style="width:80px;">
+        </label>
+        <button id="startMatch" class="btn">▶️ Start Match</button>
+
+        <button id="loadSaved" class="btn" style="background:#6c757d">📂 Load Saved</button>
+        <button id="resetMatch" class="btn" style="background:#d64545">🔄 Reset</button>
+      </div>
+      <div class="small" style="margin-top:8px;">Default: 6 players per team, each innings 7 overs.</div>
     </div>
 
-    <div id="scoreSection" style="display:none;">
-      <h2 id="inningsTitle"></h2>
-      <div id="scoreDisplay"></div>
-      <div id="batsmanStats"></div>
+    <!-- Live scoring -->
+    <div id="scorePanel" style="display:none;">
+      <div class="panel" id="liveScoreboard">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+          <div>
+            <h3 id="inningsTitle" class="innings-title">Innings 1</h3>
+            <div><strong id="battingTeam">Team</strong></div>
+            <div style="font-size:18px; margin-top:6px;"><strong id="scoreLine">0/0</strong> <span class="small" id="oversLine">0.0</span> <span id="freeHitIndicator" style="display:none; color:green; font-weight:bold; font-size:14px;">🟢 Free Hit</span></div>
+            <div class="small">RR: <span id="runRate">0.00</span> &nbsp; | &nbsp; <span id="targetBlock" style="display:none;">Target: <strong id="target">0</strong> Needed: <strong id="runsNeeded">0</strong> Balls left: <strong id="ballsLeft">0</strong> RRR: <strong id="rrr">0.00</strong></span></div>
+          </div>
 
-      <div class="controls">
-        <h3>Add Runs / Wicket</h3>
-        <button class="run" data-run="0">0</button>
-        <button class="run" data-run="1">1</button>
-        <button class="run" data-run="2">2</button>
-        <button class="run" data-run="3">3</button>
-        <button class="run" data-run="4">4</button>
-        <button class="run" data-run="6">6</button>
-        <button id="wicket">Wicket</button>
-        <button id="nextBatsman">Next Batsman</button>
+          <div style="width:360px;">
+            <div style="display:flex;gap:8px;align-items:center;">
+              <label>Striker:
+                <select id="strikerSelect"></select>
+              </label>
+              <label>Non-Striker:
+                <select id="nonStrikerSelect"></select>
+              </label>
+              <label>Bowler:
+                <select id="bowlerSelect"></select>
+              </label>
+            </div>
+
+            <div style="margin-top:8px;">
+              <div class="small">Over progress:</div>
+              <div id="overProgress" style="margin-top:6px;"></div>
+            </div>
+          </div>
+        </div>
+
+        <hr style="margin:10px 0;">
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <div style="flex:1;min-width:280px;">
+            <h4>🏏 Batsmen</h4>
+            <table id="batsmanTable">
+              <thead><tr><th>Player</th><th>R</th><th>B</th><th>SR</th><th>status</th></tr></thead>
+              <tbody></tbody>
+            </table>
+          </div>
+
+          <div style="width:340px;" class="bowler-extras-panel">
+            <h4>Bowler Stats</h4>
+            <table id="bowlerTable">
+              <thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Econ</th></tr></thead>
+              <tbody></tbody>
+            </table>
+
+            <div style="margin-top:8px;">
+              <div class="small">Partnership: <span id="partnership">0 (—)</span></div>
+              <div class="small">Extras: <span id="extrasDisplay">0</span> (<span id="extrasBreakdown"></span>)</div>
+            </div>
+          </div>
+        </div>
+
+        <hr style="margin:10px 0;">
+
+        <!-- run / extras controls -->
+        <div>
+          <div class="controls-row">
+            <button class="btn runBtn" data-run="0">0</button>
+            <button class="btn runBtn" data-run="1">1</button>
+            <button class="btn runBtn" data-run="2">2</button>
+            <button class="btn runBtn" data-run="3">3</button>
+            <button class="btn runBtn" data-run="4">4</button>
+            <button class="btn runBtn" data-run="6">6</button>
+
+            <button id="wicketBtn" class="btn" style="background:#d64545">Wicket 🎯</button>
+            <button id="swapStrike" class="btn" style="background:#ff9800">Swap Strike 🔄</button>
+
+            <button id="wideBtn" class="btn" style="background:#ffb74d">Wide</button>
+            <button id="noBallBtn" class="btn" style="background:#ffb74d">No-ball</button>
+            <button id="byeBtn" class="btn" style="background:#b2dfdb">Bye</button>
+            <button id="legByeBtn" class="btn" style="background:#b2dfdb">Leg-bye</button>
+          </div>
+
+          <div style="margin-top:10px; display:flex; gap:8px; flex-wrap:wrap; border-top: 1px solid #f0f0f0; padding-top: 10px;">
+            <button id="nextBall" class="btn" style="background:#6c757d">Next Ball (Dot)</button>
+            <button id="endInnings" class="btn" style="background:#0b74d1">End Innings ➡️</button>
+
+            <button id="saveBtn" class="btn" style="background:#2e86c1">💾 Save</button>
+            <button id="downloadJson" class="btn" style="background:#16a085">📄 JSON</button>
+            <button id="downloadExcel" class="btn" style="background:#2e7d32">📊 Excel</button>
+          </div>
+        </div>
+
+        <!-- Fall of Wickets Summary -->
+        <div style="margin-top:10px;">
+          <h4>Fall of Wickets</h4>
+          <div id="fowList" class="small"></div>
+        </div>
+
+        <div style="margin-top:10px;">
+          <div id="commentary" class="small"></div>
+        </div>
       </div>
 
-      <div id="matchInfo"></div>
+      <!-- Over-by-over and partnerships -->
+      <div class="panel">
+        <h4>📜 Over by Over</h4>
+        <div id="oversList" class="small"></div>
+        <h4 style="margin-top:8px;">🤝 Partnerships</h4>
+        <div id="partnershipsList" class="small"></div>
+      </div>
+    </div>
+
+    <!-- Match summary area -->
+    <div id="summaryPanel" class="panel" style="display:none;">
+      <h3>Match Summary</h3>
+      <div id="summaryContent"></div>
+      <div style="margin-top:10px;">
+        <button id="newMatch" class="btn">✨ New Match</button>
+      </div>
     </div>
   </div>
 
+  <!-- report.js (SheetJS helper) -->
   <script src="report.js"></script>
+  <!-- main logic -->
   <script src="script.js"></script>
 </body>
 </html>

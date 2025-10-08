@@ -1,44 +1,112 @@
 :root{
+  --primary-color: #0a4a8e;
+  --secondary-color: #00a896;
+  --danger-color: #d9455f;
+  --warning-color: #ffb830;
+  --light-bg: #f8f9fa;
   --card-bg: #ffffff;
-  --page-bg: #f5fbff;
-  --accent: #0b74d1;
+  --text-color: #212529;
   --muted: #666;
+  --border-color: #e9ecef;
 }
 *{box-sizing:border-box}
 body{
   font-family: Inter, Arial, sans-serif;
   margin:0;
-  background:var(--page-bg);
-  color:#111;
+  background:var(--light-bg);
+  color:var(--text-color);
   padding:18px;
 }
 header{ text-align:center; margin-bottom:12px;}
-h1{color:var(--accent); margin:0;}
+h1, h2, h3, h4 { color: var(--primary-color); }
+h1{ margin:0; text-align: center; margin-bottom: 20px; }
 main{ max-width:920px; margin:0 auto; }
 .card{
   background:var(--card-bg);
   border-radius:10px;
   padding:14px;
-  box-shadow:0 6px 18px rgba(8,30,50,0.06);
+  box-shadow:0 4px 12px rgba(0,0,0,0.05);
   margin-bottom:14px;
+  border: 1px solid var(--border-color);
 }
 label{ display:inline-block; margin-right:10px; }
-select,input{ padding:6px 8px; margin-left:6px; border-radius:6px; border:1px solid #ddd; }
+select,input{ padding:8px 10px; margin-left:6px; border-radius:6px; border:1px solid #ccc; background: #fff; }
 button{
   padding:8px 12px; margin:6px 6px 0 0; border-radius:8px; border:none; cursor:pointer;
-  background:var(--accent); color:white;
+  background:var(--primary-color); color:white;
+  transition: all 0.2s ease-in-out;
+  font-weight: 500;
 }
-button:hover{ opacity:0.92; }
-.runBtn{ background:#2e8b57; }
-#wicketBtn{ background:#d64545; }
-#swapStrikeBtn{ background:#ff9800; color:#111; }
+button:hover{ transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+.runBtn{ background:var(--secondary-color); }
+.runBtn[data-run="4"], .runBtn[data-run="6"] { font-weight: bold; }
+#wicketBtn{ background:var(--danger-color); }
+#swapStrikeBtn{ background:var(--warning-color); color:#111; }
 .scoreboard{ text-align:left; margin-bottom:8px; font-size:15px; color:var(--muted); }
 .batting-panel{ text-align:left; }
 table{ width:100%; border-collapse:collapse; margin-top:6px; }
-thead th{ text-align:left; border-bottom:1px solid #eee; padding:6px; }
-tbody td{ padding:6px; border-bottom:1px dashed #f0f0f0; }
-.on-strike{ font-weight:700; color:var(--accent); }
+thead th{
+  text-align:left;
+  border-bottom:2px solid var(--primary-color);
+  padding:8px;
+  font-size: 13px;
+  text-transform: uppercase;
+  color: var(--primary-color);
+}
+tbody td{ padding:8px; border-bottom:1px solid var(--border-color); }
+tbody tr:nth-child(even) { background-color: #fdfdfd; }
+tbody tr:hover { background-color: #f1f8ff; }
+.on-strike{ font-weight:700; color:var(--primary-color); background-color: #e3f2fd !important; }
+.current-bowler { font-weight: 700; }
 footer{ text-align:center; margin-top:20px; color:#777; font-size:13px; }
-#targetBlock{ background:#fff5e6; padding:8px; border-radius:8px; margin-top:8px;}
+#targetBlock{ background:#fff8e1; padding:8px; border-radius:8px; margin-top:8px; border: 1px solid #ffecb3;}
 #historyList{ font-size:14px; color:var(--muted); }
 .small-muted{ color:#666; font-size:13px; }
+.innings-title {
+  background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+  color: white;
+  padding: 4px 10px;
+  border-radius: 6px;
+  display: inline-block;
+  font-size: 16px;
+}
+.over-ball {
+  display:inline-block;
+  width:28px;
+  height: 28px;
+  line-height: 28px;
+  text-align:center;
+  margin:2px;
+  border-radius:50%;
+  border:1px solid #eee;
+  font-weight: bold;
+  color: var(--text-color);
+}
+.legal { background:#e8f5e9; border-color: #a5d6a7; }
+.extra { background:#fff3e0; border-color: #ffcc80; }
+.over-ball.free-hit-ball {
+  box-shadow: 0 0 0 2px var(--danger-color);
+}
+.over-ball:contains("W") {
+  background-color: var(--danger-color);
+  color: white;
+  border-color: var(--danger-color);
+}
+.over-ball:contains("4"), .over-ball:contains("6") {
+  background-color: var(--secondary-color);
+  color: white;
+  border-color: var(--secondary-color);
+}
+#freeHitIndicator {
+  background-color: #2e7d32;
+  color: white;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 12px !important;
+  vertical-align: middle;
+}
+.bowler-extras-panel {
+  background-color: #fafafa;
+  padding: 10px;
+  border-radius: 8px;
+}

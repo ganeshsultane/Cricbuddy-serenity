@@ -1,0 +1,83 @@
+// report.js - Cricket Match Report Generator using SheetJS
+
+function generateMatchReport(matchData) {
+    const wb = XLSX.utils.book_new();
+
+    // === Summary Sheet ===
+    const summary = [
+        ["Match Summary"],
+        ["Teams", `${matchData.teamA} vs ${matchData.teamB}`],
+        ["Overs", matchData.overs],
+        ["Winner", matchData.winner],
+        ["Man of the Match", `${matchData.manOfTheMatch.name} (${matchData.manOfTheMatch.performance})`],
+        [],
+        ["Innings", "Team", "Score", "Overs"]
+    ];
+
+    matchData.innings.forEach((inn, i) => {
+        summary.push([
+            i + 1,
+            inn.battingTeam,
+            `${inn.totalRuns}/${inn.wickets}`,
+            inn.oversPlayed
+        ]);
+    });
+
+    const summarySheet = XLSX.utils.aoa_to_sheet(summary);
+    // Auto-fit columns for summary
+    summarySheet['!cols'] = [{wch:20}, {wch:30}, {wch:15}, {wch:15}];
+    XLSX.utils.book_append_sheet(wb, summarySheet, "Summary");
+
+    // === Innings Sheets ===
+    matchData.innings.forEach((inn, index) => {
+        const inningName = `Innings ${index + 1} - ${inn.battingTeam}`;
+        const battingData = [
+            [`${inn.battingTeam} Batting Scorecard`],
+            ["Batsman", "Status", "Runs", "Balls", "SR"]
+        ];
+        inn.batsmen.forEach(b => {
+            if (b.balls > 0 || b.isOut) {
+                battingData.push([b.name, b.status || "not out", b.runs, b.balls, b.sr]);
+            }
+        });
+        battingData.push([]);
+        battingData.push(["Extras", `${inn.extras.wd} WD, ${inn.extras.nb} NB, ${inn.extras.b} B, ${inn.extras.lb} LB`]);
+        battingData.push(["Total", `${inn.totalRuns}/${inn.wickets} (${inn.oversPlayed} Overs)`]);
+
+        battingData.push([]);
+        battingData.push([`${inn.bowlingTeam} Bowling Scorecard`]);
+        battingData.push(["Bowler", "Overs", "Runs", "Wickets", "Econ"]);
+        inn.bowlers.forEach(b => {
+            if (b.overs > 0) {
+                const bowlerOvers = `${Math.floor(b.overs / 6)}.${b.overs % 6}`;
+                battingData.push([b.name, bowlerOvers, b.runs, b.wickets, b.econ]);
+            }
+        });
+
+        const ws = XLSX.utils.aoa_to_sheet(battingData);
+        ws['!cols'] = [{wch:25}, {wch:25}, {wch:10}, {wch:10}, {wch:10}];
+        XLSX.utils.book_append_sheet(wb, ws, inningName);
+    });
+
+    // === Over by Over Sheet ===
+    const overByOverData = [
+        ["Over-by-Over Details"]
+    ];
+    matchData.innings.forEach((inn, index) => {
+        overByOverData.push([]);
+        overByOverData.push([`Innings ${index + 1}: ${inn.battingTeam}`]);
+        overByOverData.push(["Over", "Bowler", "Runs", "Details"]);
+        inn.overHistory.forEach(o => {
+            overByOverData.push([o.overNum, o.bowlerName, o.runsInOver, o.balls.join(", ")]);
+        });
+    });
+    const overSheet = XLSX.utils.aoa_to_sheet(overByOverData);
+    overSheet['!cols'] = [{wch:10}, {wch:20}, {wch:10}, {wch:30}];
+    XLSX.utils.book_append_sheet(wb, overSheet, "Over by Over");
+
+
+    // === Save File ===
+    const fileName = `${matchData.teamA}_vs_${matchData.teamB}_report.xlsx`;
+    XLSX.writeFile(wb, fileName);
+    alert(`Match report saved as: ${fileName}`);
+}
