@@ -110,3 +110,38 @@ footer{ text-align:center; margin-top:20px; color:#777; font-size:13px; }
   padding: 10px;
   border-radius: 8px;
 }
+
+/* --- Responsive Design for Mobile --- */
+.scoreboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.main-content-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.batsman-panel {
+  flex: 1;
+  min-width: 280px;
+}
+
+.bowler-extras-panel {
+  width: 340px;
+}
+
+@media (max-width: 768px) {
+  .scoreboard-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .bowler-extras-panel {
+    width: 100%; /* Take full width on mobile */
+    margin-top: 1rem;
+  }
+}

@@ -55,11 +55,11 @@
     <!-- Live scoring -->
     <div id="scorePanel" style="display:none;">
       <div class="panel" id="liveScoreboard">
-        <div style="display:flex; justify-content:space-between; align-items:center;">
+        <div class="scoreboard-header">
           <div>
             <h3 id="inningsTitle" class="innings-title">Innings 1</h3>
             <div><strong id="battingTeam">Team</strong></div>
-            <div style="font-size:18px; margin-top:6px;"><strong id="scoreLine">0/0</strong> <span class="small" id="oversLine">0.0</span> <span id="freeHitIndicator" style="display:none; color:green; font-weight:bold; font-size:14px;">🟢 Free Hit</span></div>
+            <div class="score-line-display" style="font-size:18px; margin-top:6px;"><strong id="scoreLine">0/0</strong> <span class="small" id="oversLine">0.0</span> <span id="freeHitIndicator" style="display:none; color:green; font-weight:bold; font-size:14px;">🟢 Free Hit</span></div>
             <div class="small">RR: <span id="runRate">0.00</span> &nbsp; | &nbsp; <span id="targetBlock" style="display:none;">Target: <strong id="target">0</strong> Needed: <strong id="runsNeeded">0</strong> Balls left: <strong id="ballsLeft">0</strong> RRR: <strong id="rrr">0.00</strong></span></div>
           </div>
 
@@ -85,8 +85,8 @@
 
         <hr style="margin:10px 0;">
 
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <div style="flex:1;min-width:280px;">
+        <div class="main-content-grid">
+          <div class="batsman-panel">
             <h4>🏏 Batsmen</h4>
             <table id="batsmanTable">
               <thead><tr><th>Player</th><th>R</th><th>B</th><th>SR</th><th>status</th></tr></thead>
@@ -94,7 +94,7 @@
             </table>
           </div>
 
-          <div style="width:340px;" class="bowler-extras-panel">
+          <div class="bowler-extras-panel">
             <h4>Bowler Stats</h4>
             <table id="bowlerTable">
               <thead><tr><th>Bowler</th><th>O</th><th>R</th><th>W</th><th>Econ</th></tr></thead>
